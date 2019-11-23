@@ -5,4 +5,7 @@ from Test import Test
 
 
 class DigitRecognition:
-    def __init__(self, problem, learningRate, )
+    def __init__(self, problem, learningRate, epochs):
+        self.problem = problem
+        self.learningRate = learningRate
+        self.epochs = epochs
