@@ -2,6 +2,7 @@ class ImageReader:
     def __init__(self,imageFile):
         self.imageFolder = imageFile
         self.images = []
+        self.answers = []
 
     def readImages(self):
         if len(self.images) > 0:
@@ -11,4 +12,4 @@ class ImageReader:
             print()
 
     def getImages(self):
-        return self.images
+        return self.images, self.answers

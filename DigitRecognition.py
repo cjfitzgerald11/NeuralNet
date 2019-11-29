@@ -4,28 +4,30 @@ from Test import Test
 from ImageReader import ImageReader
 
 class DigitRecognition:
-    def __init__(self, imageDirectory, learningRate, epochs, imageSize):
+    def __init__(self, imageDirectory, learningRate, epochs, imageSize,numBiasNodes,numOuputNodes):
         self.learningRate = learningRate
         self.epochs = epochs
         self.imageSize = imageSize
+        self.numBiasNodes = numBiasNodes
+        self.numOuputNodes = numOuputNodes
         self.ImageReader = ImageReader(imageDirectory)
-        self.Perceptron = Perceptron()
+        Trainer = Train(learningRate)
+        Tester = Test()
 
     def run(self):
         i = 0
         #build defulat perceptron
-        Percep = Perceptron()
+        Percep = Perceptron(self.imageSize**2, self.numBiasNodes,self.numOuputNodes)
         Percep.init()
         while i < self.epochs:
             Percep,TestResults = self.epoch(Percep)
+            print(TestResults)
             i += 1
 
     def epoch(self,perceptron):
-        TrainImages,TestImages = self.getImageSets()
-        Trainer = Train()
-        TrainedPerceptron = Trainer.Train(TrainImages)
-        Tester = Test()
-        TestResults = Tester.Test(TrainedPerceptron,TestImages)
+        TrainImages,TrainAnswers,TestImages,TestAnswers = self.getImageSets()
+        TrainedPerceptron = Trainer.train(TrainImages)
+        TestResults = Tester.test(TrainedPerceptron,TestImages)
         return TrainedPerceptron,TestResults
 
     def getImageSets(self):
@@ -36,6 +38,6 @@ class DigitRecognition:
         #only reads images if it hasn't been called before
         TrainReader.readImages()
         TestReader.readImages()
-        TrainImages = TrainReader.getImages()
-        TestImages = TestReader.getImages()
-        return TrainImages,TestImages
+        TrainImages,TrainAnswers = TrainReader.getImages()
+        TestImages,TestAnswers = TestReader.getImages()
+        return TrainImages,TrainAnswers,TestImages,TestAnswers
