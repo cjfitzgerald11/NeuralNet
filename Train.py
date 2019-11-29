@@ -5,5 +5,5 @@ class Train:
     def __init__(self, learningRate):
         self.learningRate = learningRate
 
-    def train(self,trainImages,trainAnswers):
+    def train(self,perceptron, trainImages,trainAnswers):
         print()

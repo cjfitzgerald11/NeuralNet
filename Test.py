@@ -1,3 +1,5 @@
+from Perceptron import Perceptron
 class Test:
-    def test(self,testImages,testAnswers):
+    def test(self,perceptron, testImages,testAnswers):
+        #given a
         print()

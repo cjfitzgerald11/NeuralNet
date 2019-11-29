@@ -26,8 +26,8 @@ class DigitRecognition:
 
     def epoch(self,perceptron):
         TrainImages,TrainAnswers,TestImages,TestAnswers = self.getImageSets()
-        TrainedPerceptron = Trainer.train(TrainImages)
-        TestResults = Tester.test(TrainedPerceptron,TestImages)
+        TrainedPerceptron = Trainer.train(TrainImages,TrainAnswers)
+        TestResults = Tester.test(TrainedPerceptron,TrainedPerceptron,TestImages)
         return TrainedPerceptron,TestResults
 
     def getImageSets(self):
