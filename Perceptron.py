@@ -1,11 +1,16 @@
+import Node from Node
+import numpy as np
+
 class Perceptron:
-    def __init__(self, inputNodes, outputNodes, biasNode = None):
-        self.inputNodes = inputNodes
-        self.outputNodes = outputNodes
+    def __init__(self, numInputNodes,numBiasNodes, numOutputNodes):
+        self.inputNodes += [True]*numInputNodes
+        self.inputNodes += [False]*numBiasNodes
+        self.perceptronGraph = np.zeros((numInputNodes + numBiasNodes,numOutputNodes))
+        self.inputNode = Node("input")
+        self.outputNode = Node("output")
+        self.biasNode = Node("bias")
 
+    def self.getGraphWeight(self,inputNode,outputNode):
+        return self.perceptronGraph[inputNode,outputNode]
 
-    def getInputNodes(self):
-        return self.inputNodes
-
-    def getOutputNodes(self):
-        return self.outputNodes
+    def getOutputNodeActivation(self,outPu)

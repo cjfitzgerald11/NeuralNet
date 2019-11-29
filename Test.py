@@ -1,4 +1,5 @@
 class Test:
-    def __init__(self, problem, perceptron):
-        self.problem = problem
+    def __init__(self, perceptron):
         self.perceptron = perceptron
+
+    def test(self,images,answers):
