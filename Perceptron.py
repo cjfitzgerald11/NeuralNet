@@ -26,7 +26,7 @@ class Perceptron:
         self.perceptronGraph[inputNode,outputNode] = weight
 
     def evaluate(self,image):
-        activations = sefl.getActivations(image)
+        activations = self.getActivations(image)
         if len(activations) == 1:
             activation = activations[0]
             digitEstimate = activation * 10
@@ -54,7 +54,6 @@ class Perceptron:
                     imageValue = image[inputNode]
                     activation = self.inputNode.activate(imageValue)
                     sum += weight*activation
-
                 else:
                     activation  = self.inputNode.activate(0)
                     sum += weight*activation
