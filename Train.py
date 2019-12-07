@@ -6,4 +6,6 @@ class Train:
         self.learningRate = learningRate
 
     def train(self,perceptron, trainImages,trainAnswers):
-        print()
+        for i in range(len(trainImages)):
+            perceptron.trainWeights(trainImages[i],trainAnswers[i])
+        return perceptron

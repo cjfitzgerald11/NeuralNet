@@ -11,3 +11,7 @@ class Node:
             return 1
         else:
             return 1.0/(1.0 + pow(math.e,(-input + 0.5)))
+
+    def g_prime(self,activation):
+        g_dot = (math.e ** (0.5 - activation)) / (((math.e ** (0.5 - activation)) + 1) ** 2)
+        return g_dot

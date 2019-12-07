@@ -1,13 +1,15 @@
-import Node from Node
+from Node import Node
 import numpy as np
 import random
+import math
 
 class Perceptron:
-    def __init__(self, numInputNodes,numBiasNodes, numOutputNodes):
-        self.inputNodes += [True]*numInputNodes
+    def __init__(self, numInputNodes,numBiasNodes, numOutputNodes, learningRate):
+        self.inputNodes = [True]*numInputNodes
         self.inputNodes += [False]*numBiasNodes
         self.numOutputNodes = numOutputNodes
         self.perceptronGraph = np.zeros((numInputNodes + numBiasNodes,numOutputNodes))
+        self.learningRate = learningRate
         self.inputNode = Node("input")
         self.outputNode = Node("output")
         self.biasNode = Node("bias")
@@ -43,7 +45,6 @@ class Perceptron:
                 i += 1
             return maxIndex
 
-
     def getActivations(self,image):
         activations = []
         for outputNode in range(self.numOutputNodes):
@@ -55,7 +56,34 @@ class Perceptron:
                     activation = self.inputNode.activate(imageValue)
                     sum += weight*activation
                 else:
-                    activation  = self.inputNode.activate(0)
+                    activation  = self.biasNode.activate(0)
                     sum += weight*activation
-            activations += sum
+            activations += [self.outputNode.activate(sum)]
         return activations
+
+    def trainWeights(self,trainImage,trainAnswer):
+        evaluation = self.evaluate(trainImage)
+        outputNode = 0
+        if evaluation != trainAnswer:
+            activations = self.getActivations(trainImage)
+            for activation in activations:
+                if len(activations) == 1:
+                    activation = activation * 10
+                    self.adjustWeight(outputNode, activation, trainAnswer)
+                else:
+                    if outputNode == trainAnswer:
+                        self.adjustWeight(outputNode, activation, 1)
+                    else:
+                        self.adjustWeight(outputNode, activation, 0)
+                outputNode += 1
+
+    def adjustWeight(self,outputNode, solution, answer):
+        err = abs(solution - answer)
+        print("err: ", err)
+        g_prime = self.inputNode.g_prime(solution)
+        print("g_prime: ", g_prime)
+        print("update: ", (err*g_prime*self.learningRate))
+        for inputNode in range(len(self.inputNodes)):
+            currentWeight = self.getGraphWeight(inputNode,outputNode)
+            updatedWeight = currentWeight - (err*g_prime*self.learningRate)
+            self.setGraphWeight(inputNode, outputNode,updatedWeight)
