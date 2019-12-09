@@ -18,8 +18,9 @@ class Perceptron:
         #initialize perceptron to default values (ranodm number between -1 and 1)
         for outputNode in range(self.numOutputNodes):
             for inputNode in range(len(self.inputNodes)):
-                weight = random.uniform(-1.0, 1.0)
+                weight = random.uniform(-0.15, .15)
                 self.setGraphWeight(inputNode,outputNode,weight)
+        print("self.perceptronGraph: ", self.perceptronGraph)
 
     def getGraphWeight(self,inputNode,outputNode):
         return self.perceptronGraph[inputNode,outputNode]
@@ -51,10 +52,17 @@ class Perceptron:
             sum = 0
             for inputNode in range(len(self.inputNodes)):
                 weight = self.getGraphWeight(inputNode,outputNode)
-                if inputNode < len(image):
+                isInputNode = self.inputNodes[inputNode]
+                if isInputNode:
                     imageValue = image[inputNode]
+                    print("inputNode: ", inputNode)
+                    print("imageValue: ", imageValue)
                     activation = self.inputNode.activate(imageValue)
+                    print("activation: ", activation)
+                    print("weight: ", weight)
+                    print("weight*activation: ", weight*activation)
                     sum += weight*activation
+                    print("sum: ", sum)
                 else:
                     activation  = self.biasNode.activate(0)
                     sum += weight*activation
@@ -78,12 +86,9 @@ class Perceptron:
                 outputNode += 1
 
     def adjustWeight(self,outputNode, solution, answer):
-        err = abs(solution - answer)
-        print("err: ", err)
+        err = solution - answer
         g_prime = self.inputNode.g_prime(solution)
-        print("g_prime: ", g_prime)
-        print("update: ", (err*g_prime*self.learningRate))
         for inputNode in range(len(self.inputNodes)):
             currentWeight = self.getGraphWeight(inputNode,outputNode)
-            updatedWeight = currentWeight - (err*g_prime*self.learningRate)
+            updatedWeight = currentWeight  + (err*g_prime*self.learningRate)
             self.setGraphWeight(inputNode, outputNode,updatedWeight)
