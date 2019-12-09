@@ -20,13 +20,20 @@ class Classifier:
         Percep = Perceptron(self.imageSize**2, self.numBiasNodes,self.numOuputNodes,self.learningRate)
         Percep.init()
         while i < self.epochs:
+            print()
+            print("--------")
+            print("epoch: ", i)
+            print("--------")
+            print()
             Percep,TestResults = self.epoch(Percep)
             print(TestResults)
             i += 1
 
     def epoch(self,perceptron):
         TrainImages,TrainAnswers,TestImages,TestAnswers = self.getImageSets()
+        print("perceptron weights: ", perceptron.perceptronGraph)
         TrainedPerceptron = self.Trainer.train(perceptron,TrainImages,TrainAnswers)
+        print("trained perceptron weights: ", TrainedPerceptron.perceptronGraph)
         TestResults = self.Tester.test(TrainedPerceptron,TestImages,TestAnswers)
         return TrainedPerceptron,TestResults
 
