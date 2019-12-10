@@ -20,7 +20,7 @@ class ImageReader:
                     if len(row) == 2:
                         #digit answer
                         try:
-                            if len(image) > 0: 
+                            if len(image) > 0:
                                 self.images += [image]
                                 image = []
                             digit = int(row[1])
@@ -39,7 +39,11 @@ class ImageReader:
                 for r in inp:
                     row = r.split(",")
                     if len(row) > 0:
-                        self.images += [[int(digit) for digit in row]]
+                        input = [int(digit) for digit in row]
+                        answer = input[-1]
+                        image = input[:-1]
+                        self.images += [image]
+                        self.answers += [answer]
             else:
                 print("INVALID IMAGE SIZE")
 
