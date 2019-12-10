@@ -28,18 +28,16 @@ class Classifier:
         Percep = Perceptron(self.imageSize**2, self.numBiasNodes,self.numOuputNodes,self.learningRate)
         Percep.init()
         i = 0
+        self.testResults = []
+        self.runTimes = []
         startTime = time.process_time()
         while i < self.epochs:
-            print("--------")
-            print("epoch: ", i+1)
-            print("--------")
             Percep,TestResults = self.epoch(Percep)
             self.testResults += [TestResults]
             currentTime = time.process_time() - startTime
             self.runTimes += [currentTime]
-            print(TestResults)
             i += 1
-        self.graphResults()
+        return  self.testResults,self.runTimes
 
     def epoch(self,perceptron):
         TrainedPerceptron = self.Trainer.train(perceptron)
@@ -84,5 +82,18 @@ imageSize = sys.argv[3]
 numBiasNodes = sys.argv[4]
 numOuputNodes = sys.argv[5]
 
+numRuns = 5
 classify = Classifier(learningRate,epochs,imageSize,numBiasNodes,numOuputNodes)
-classify.run()
+allTestResults = []
+allRunTimes = []
+for i in range(numRuns):
+    print("run: ", i + 1)
+    testResults,runTimes = classify.run()
+    allTestResults += [testResults]
+    allRunTimes += [runTimes]
+averageTest = np.mean(allTestResults, axis=0)
+averageTest = [100*result for result in averageTest]
+print("Average Test Success: ", averageTest)
+averageRunTimes = np.mean(allRunTimes, axis=0)
+print("Average Run Time: ", list(averageRunTimes))
+print("maxValue: ", max(averageTest))
