@@ -84,6 +84,11 @@ class Perceptron:
         err = (answer - solution)/10
         g_prime = self.inputNode.g_prime(sum)
         for inputNode in range(len(self.inputNodes)):
+            imageValue = 0
+            if self.inputNodes[inputNode] == True:
+                imageValue = trainImage[inputNode]
+            else:
+                imageValue = 1
             currentWeight = self.getGraphWeight(inputNode,outputNode)
-            updatedWeight = currentWeight  + (err*g_prime*self.learningRate*(trainImage[inputNode] + .1))
+            updatedWeight = currentWeight  + (err*g_prime*self.learningRate*(imageValue + .1))
             self.setGraphWeight(inputNode, outputNode,updatedWeight)
