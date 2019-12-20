@@ -20,6 +20,8 @@ class Classifier:
         self.testResults = []
         self.runTimes = []
 
+     """Main method that runs the Perceptron algorithm. Initializes a
+    Perceptron, trains the Perceptron, and tests it against known dataset."""
     def run(self):
         TrainImages,TrainAnswers,TestImages,TestAnswers = self.getImageSets()
         self.Trainer = Train(TrainImages,TrainAnswers,self.learningRate)
@@ -39,6 +41,7 @@ class Classifier:
             i += 1
         return  self.testResults,self.runTimes
 
+    """Helper method that that runs a single training epoch"""
     def epoch(self,perceptron):
         TrainedPerceptron = self.Trainer.train(perceptron)
         TestResults = self.Tester.test(TrainedPerceptron)
